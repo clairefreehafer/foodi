@@ -7,14 +7,11 @@ export default class App extends Component {
 		super(props);
 	}
 
-	componentWillMount () {
-		// get all tasks when component mounts
-		this.getTasks();
-	}
-
 	render () {
 		return (
-			<Map />
+			<div style={{ width: '500px', height: '500px'}}>TESTETSTSETS
+				<Map />
+			</div>
 		)
 	}
 }
