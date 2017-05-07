@@ -19,8 +19,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Restaurants extends Component {
-  componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
+  shouldComponentUpdate (nextProps) {
+    if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
+      this.props.getRestaurants(nextProps.lat, nextProps.lng)
+      console.log(nextProps)
+      return true;
+    }
   }
 
   render () {

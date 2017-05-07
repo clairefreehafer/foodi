@@ -30,7 +30,6 @@ class App extends Component {
 
 	componentDidMount () {
 		this.props.getUserLocation()
-		this.props.getRestaurants(45, 45)
 	}
 
 	componentDidUpdate () {

@@ -11022,7 +11022,6 @@ var App = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.props.getUserLocation();
-			this.props.getRestaurants(45, 45);
 		}
 	}, {
 		key: 'componentDidUpdate',
@@ -45842,9 +45841,13 @@ var Restaurants = function (_Component) {
   }
 
   _createClass(Restaurants, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
+        this.props.getRestaurants(nextProps.lat, nextProps.lng);
+        console.log(nextProps);
+        return true;
+      }
     }
   }, {
     key: 'render',
