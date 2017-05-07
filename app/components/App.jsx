@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import Promise from 'bluebird';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 
 import Map from './Map';
-import Restaurants from './Restaurants';
+import RestaurantsContainer from './RestaurantsContainer';
 
 import { getUserLocation, getRestaurants, store } from '../redux'
 
-const mapStateToProps = state => ({
-  lat: state.lat,
-  lng: state.lng,
-  restaurants: state.restaurants
-})
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   getUserLocation: () => {
@@ -26,11 +21,9 @@ class App extends Component {
 	}
 
 	componentDidMount () {
-		this.props.getUserLocation()
+		this.props.getUserLocation();
 	}
 
-	componentDidUpdate () {
-	}
 
 	render () {
 		return (
@@ -40,11 +33,11 @@ class App extends Component {
 					<Map />
 				</div>
 				<div id="restaurants">
-					<Restaurants />
+					<RestaurantsContainer />
 				</div>
 			</div>
 		)
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);

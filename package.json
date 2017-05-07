@@ -14,7 +14,6 @@
   "author": "Claire Freehafer <claire.freehafer@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "google-map-react": "^0.24.0",

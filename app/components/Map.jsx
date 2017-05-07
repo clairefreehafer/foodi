@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
 
 import { getUserLocation, store } from '../redux';
-import Restaurants from './Restaurants';
 
 const style = { width: '100px', height: '100px'}
 

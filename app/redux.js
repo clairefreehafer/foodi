@@ -34,28 +34,6 @@ export const setRestaurants = restaurants => {
 	}
 }
 
-const promisifiedGetRestaurants = (lat, lng) => {
-	return new Promise((resolve, reject) => {
-		const service = new google.maps.places.PlacesService(document.createElement('div'));
-
-		const request = {
-			location: new google.maps.LatLng(lat, lng),
-			radius: 10000,
-			type: ['restaurant']
-		}
-		service.nearbySearch(request, resolve);
-	})
-}
-
-// export const getRestaurants = (lat = 43, lng = -73) => {
-// 	return dispatch => {
-// 		return promisifiedGetRestaurants(lat, lng)
-// 			.then(restaurants => {
-// 				dispatch(setRestaurants(restaurants));
-// 			})
-// 	}
-// }
-
 export const getRestaurants = (lat, lng) => {
 	return dispatch => {
 		const service = new google.maps.places.PlacesService(document.createElement('div'));
