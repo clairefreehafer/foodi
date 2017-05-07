@@ -22,9 +22,9 @@ class Restaurants extends Component {
   shouldComponentUpdate (nextProps) {
     if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
       this.props.getRestaurants(nextProps.lat, nextProps.lng)
-      console.log(nextProps)
       return true;
     }
+    return false;
   }
 
   render () {
