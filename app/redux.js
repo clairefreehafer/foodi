@@ -20,18 +20,18 @@ const promisifiedGeolocation = () => {
 	});
 }
 
-// get the user's location from the browser
 export const getUserLocation = () => {
 	const location = navigator.geolocation;
 
 	return dispatch => {
-		return promisifiedGeolocation()
-			.then(position => {
-				return dispatch(setUserLocation(position.coords.latitude, position.coords.longitude))
+		if (location) {
+			location.getCurrentPosition(position => {
+				console.log(position)
+				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude))
 			})
+		}
 	}
 }
-
 			// dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
 
 export const setRestaurants = restaurants => {

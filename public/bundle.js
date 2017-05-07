@@ -11002,9 +11002,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
 		getUserLocation: function getUserLocation() {
 			dispatch((0, _redux.getUserLocation)());
-		},
-		getRestaurants: function getRestaurants(lat, lng) {
-			dispatch((0, _redux.getRestaurants)(lat, lng));
 		}
 	};
 };
@@ -11051,9 +11048,6 @@ var App = function (_Component) {
 }(_react.Component);
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
-
-
-(0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Restaurants2.default);
 
 /***/ }),
 /* 99 */
@@ -29585,17 +29579,18 @@ var promisifiedGeolocation = function promisifiedGeolocation() {
 	});
 };
 
-// get the user's location from the browser
 var getUserLocation = exports.getUserLocation = function getUserLocation() {
 	var location = navigator.geolocation;
 
 	return function (dispatch) {
-		return promisifiedGeolocation().then(function (position) {
-			return dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
-		});
+		if (location) {
+			location.getCurrentPosition(function (position) {
+				console.log(position);
+				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
+			});
+		}
 	};
 };
-
 // dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
 
 var setRestaurants = exports.setRestaurants = function setRestaurants(restaurants) {

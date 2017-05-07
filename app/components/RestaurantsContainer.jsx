@@ -23,7 +23,7 @@ class RestaurantsContainer extends Component {
 
   shouldComponentUpdate (nextProps) {
     if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
-      this.props.getRestaurants(nextProps.lat, nextProps.lng)
+      this.props.getRestaurants(nextProps.lat, nextProps.lng);
       return true;
     }
     return false;

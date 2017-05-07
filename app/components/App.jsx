@@ -17,10 +17,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUserLocation: () => {
     dispatch(getUserLocation())
-  },
-	getRestaurants: (lat, lng) => {
-		dispatch(getRestaurants(lat, lng))
-	}
+  }
 });
 
 class App extends Component {
@@ -51,5 +48,3 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-
-connect(mapStateToProps, mapDispatchToProps)(Restaurants);
