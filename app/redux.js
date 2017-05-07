@@ -14,12 +14,6 @@ export const setUserLocation = (lat, lng) => {
 	}
 }
 
-const promisifiedGeolocation = () => {
-	return new Promise((resolve, reject) => {
-		return navigator.geolocation.getCurrentPosition(resolve, reject);
-	});
-}
-
 export const getUserLocation = () => {
 	const location = navigator.geolocation;
 
@@ -32,7 +26,6 @@ export const getUserLocation = () => {
 		}
 	}
 }
-			// dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
 
 export const setRestaurants = restaurants => {
 	return {
@@ -54,15 +47,30 @@ const promisifiedGetRestaurants = (lat, lng) => {
 	})
 }
 
-export const getRestaurants = (lat = 43, lng = -73) => {
+// export const getRestaurants = (lat = 43, lng = -73) => {
+// 	return dispatch => {
+// 		return promisifiedGetRestaurants(lat, lng)
+// 			.then(restaurants => {
+// 				dispatch(setRestaurants(restaurants));
+// 			})
+// 	}
+// }
+
+export const getRestaurants = (lat, lng) => {
 	return dispatch => {
-		return promisifiedGetRestaurants(lat, lng)
-			.then(restaurants => {
-				dispatch(setRestaurants(restaurants));
-			})
+		const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+		const request = {
+			location: new google.maps.LatLng(lat, lng),
+			radius: 10000,
+			type: ['restaurant']
+		};
+
+		service.nearbySearch(request, restaurants => {
+			dispatch(setRestaurants(restaurants));
+		})
 	}
 }
-
 
 /*****************************/
 /********** REDUCER **********/

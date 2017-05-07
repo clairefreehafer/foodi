@@ -29573,12 +29573,6 @@ var setUserLocation = exports.setUserLocation = function setUserLocation(lat, ln
 	};
 };
 
-var promisifiedGeolocation = function promisifiedGeolocation() {
-	return new Promise(function (resolve, reject) {
-		return navigator.geolocation.getCurrentPosition(resolve, reject);
-	});
-};
-
 var getUserLocation = exports.getUserLocation = function getUserLocation() {
 	var location = navigator.geolocation;
 
@@ -29591,7 +29585,6 @@ var getUserLocation = exports.getUserLocation = function getUserLocation() {
 		}
 	};
 };
-// dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
 
 var setRestaurants = exports.setRestaurants = function setRestaurants(restaurants) {
 	return {
@@ -29613,12 +29606,26 @@ var promisifiedGetRestaurants = function promisifiedGetRestaurants(lat, lng) {
 	});
 };
 
-var getRestaurants = exports.getRestaurants = function getRestaurants() {
-	var lat = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 43;
-	var lng = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -73;
+// export const getRestaurants = (lat = 43, lng = -73) => {
+// 	return dispatch => {
+// 		return promisifiedGetRestaurants(lat, lng)
+// 			.then(restaurants => {
+// 				dispatch(setRestaurants(restaurants));
+// 			})
+// 	}
+// }
 
+var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) {
 	return function (dispatch) {
-		return promisifiedGetRestaurants(lat, lng).then(function (restaurants) {
+		var service = new google.maps.places.PlacesService(document.createElement('div'));
+
+		var request = {
+			location: new google.maps.LatLng(lat, lng),
+			radius: 10000,
+			type: ['restaurant']
+		};
+
+		service.nearbySearch(request, function (restaurants) {
 			dispatch(setRestaurants(restaurants));
 		});
 	};
