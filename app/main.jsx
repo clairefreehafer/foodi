@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import App from './components/App'
-import { store } from './redux';
+import { getRestaurants, store } from './redux';
 
 render(
 	<Provider store={store}>
