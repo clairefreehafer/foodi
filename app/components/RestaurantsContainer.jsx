@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
 
 class RestaurantsContainer extends Component {
 
-  shouldComponentUpdate (nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
       this.props.getRestaurants(nextProps.lat, nextProps.lng);
       return true;
@@ -30,6 +30,7 @@ class RestaurantsContainer extends Component {
   }
 
   render () {
+		console.log(this.props.restaurants)
     return (
 			<Restaurant restaurants={this.props.restaurants} />
     )

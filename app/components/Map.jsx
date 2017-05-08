@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 
 import { getUserLocation, store } from '../redux';
 
+import { OverlayTrigger, Popover } from 'react-bootstrap';
+
 const style = { width: '100px', height: '100px'}
 
 const AnyReactComponent = ({ text }) => <div style={style}>{text}</div>;
 
  const mapStateToProps = state => ({
 	lat: state.lat,
-	lng: state.lng
+	lng: state.lng,
+	restaurants: state.restaurants
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -40,10 +43,13 @@ class Map extends Component {
 	}
 
   render() {
+		const restaurants = this.props.restaurants;
 		const currentLocation = {
 			lat: this.props.lat,
 			lng: this.props.lng
 		};
+
+		if (restaurants.length > 0) console.log('location', restaurants[0].geometry.location.lat())
 
     return (
 				<GoogleMapReact
@@ -55,11 +61,11 @@ class Map extends Component {
 					defaultZoom={this.props.zoom}
 					center={currentLocation}
 				>
+				{/*{restaurants.length > 0 ?
 					<AnyReactComponent
-						lat={59.955413}
-						lng={30.337844}
-						text={'Kreyser Avrora'}
-					/>
+						lat={restaurant.}
+				: null}*/}
+
 				</GoogleMapReact>
     );
   }
