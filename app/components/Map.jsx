@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getUserLocation, store } from '../redux';
 
 import { OverlayTrigger, Popover } from 'react-bootstrap';
+import FontIcon from 'material-ui/FontIcon';
 
 const style = { width: '100px', height: '100px'}
 
@@ -61,10 +62,14 @@ class Map extends Component {
 					defaultZoom={this.props.zoom}
 					center={currentLocation}
 				>
-				{/*{restaurants.length > 0 ?
-					<AnyReactComponent
-						lat={restaurant.}
-				: null}*/}
+				{restaurants.length > 0 ? restaurants.map(restaurant => (
+					<FontIcon
+						className="material-icons"
+						lat={restaurant.geometry.location.lat()}
+						lng={restaurant.geometry.location.lng()}
+						zIndex={1}
+					>place</FontIcon>))
+				: null}
 
 				</GoogleMapReact>
     );

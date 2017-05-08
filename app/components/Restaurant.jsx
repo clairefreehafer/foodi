@@ -1,10 +1,13 @@
 import React from 'react';
 
+import PopUp from './PopUp'
+
 import { ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap';
-import {GridList, GridTile} from 'material-ui/GridList';
+import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import FontIcon from 'material-ui/FontIcon';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const Restaurant = (props) => {
   const restaurants = props.restaurants;
@@ -13,29 +16,29 @@ const Restaurant = (props) => {
     <div>
       <PageHeader>Restaurants Near You</PageHeader>
 
-      {/*<ListGroup>
-        {restaurants.length > 0 ? restaurants.map(restaurant => (
-          <ListGroupItem key={restaurant.id} header={restaurant.name}>
-            {restaurant.vicinity}
-            <img src={restaurant.photos[0].getUrl({maxWidth: 100, maxHeight: 100})} />
-          </ListGroupItem>
-        ))
-      : <div>Loading...</div>}
-    </ListGroup>*/}
-
     <GridList
       cellHeight={300}
       style={{ width: '100%' }}
     >
-      {restaurants.length > 0 ? restaurants.map(restaurant => (
-        <GridTile
-          key={restaurant.id}
-          title={restaurant.name}
-          subtitle={restaurant.vicinity}
-        >
-          <img src={restaurant.photos[0].getUrl({maxWidth: 300, maxHeight: 300})} />
-        </GridTile>
-      )) : <div>Loading...</div>}
+      {restaurants.length > 0 ? restaurants.map(restaurant => {
+        return (
+          <GridTile
+            key={restaurant.id}
+            title={restaurant.name}
+            subtitle={restaurant.vicinity}
+            actionIcon={<div className="rating">
+              <FontIcon className="material-icons" color="white">star</FontIcon>&nbsp;
+              <span className="rating-number">
+                {restaurant.rating}
+              </span>
+            </div>}
+          >
+          {/* put in contingency for no photos */}
+            <img src={restaurant.photos[0].getUrl({maxWidth: 300, maxHeight: 300})} />
+          </GridTile>
+        )
+      })
+      : <CircularProgress size={100} thickness={10} />}
     </GridList>
     </div>
   )

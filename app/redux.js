@@ -20,13 +20,13 @@ export const getUserLocation = () => {
 	return dispatch => {
 		if (location) {
 			location.getCurrentPosition(position => {
-				console.log(position)
 				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude))
 			})
 		}
 	}
 }
 
+// set closest restaurants
 export const setRestaurants = restaurants => {
 	return {
 		type: 'SET_RESTAURANTS',
@@ -50,6 +50,26 @@ export const getRestaurants = (lat, lng) => {
 	}
 }
 
+// create restaurant popup
+export const setSelectedRestaurant = restaurantInfo => (
+	{
+		type: 'SET_SELECTED_RESTAURANT',
+		restaurantInfo: restaurantInfo
+	}
+)
+
+export const getRestaurantInfo = restaurantId => {
+	const getInfo = new google.maps.places.PlacesService(document.createElement('div'));
+
+	const infoRequest = {
+		placeID: restaurantId
+	};
+
+	getInfo.getDetails(infoRequest, restaurantInfo => {
+		dispatch(setSelectedRestaurant(restaurantInfo));
+	})
+}
+
 /*****************************/
 /********** REDUCER **********/
 /*****************************/
@@ -57,7 +77,8 @@ export const getRestaurants = (lat, lng) => {
 const initialState = {
 	lat: 0,
 	lng: 0,
-	restaurants: []
+	restaurants: [],
+	selectedRestaurant: null
 }
 
 export const reducer = (state = initialState, action) => {
@@ -71,6 +92,11 @@ export const reducer = (state = initialState, action) => {
 		case 'SET_RESTAURANTS':
 			return Object.assign({}, state, {
 				restaurants: action.restaurants
+			});
+
+		case 'SET_SELECTED_RESTAURANT':
+			return Object.assign({}, state, {
+				selectedRestaurant: state.restaurantInfo
 			});
 
 		default:

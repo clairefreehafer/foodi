@@ -30,12 +30,12 @@ class RestaurantsContainer extends Component {
   }
 
   render () {
-		console.log(this.props.restaurants)
     return (
-			<Restaurant restaurants={this.props.restaurants} />
+			<Restaurant
+				restaurants={this.props.restaurants}
+			/>
     )
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(RestaurantsContainer);
