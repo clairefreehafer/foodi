@@ -11008,6 +11008,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
 		getUserLocation: function getUserLocation() {
 			dispatch((0, _redux.getUserLocation)());
+		},
+		setRestaurantInfo: function setRestaurantInfo() {
+			dispatch((0, _redux.setRestaurantInfo)(null));
 		}
 	};
 };
@@ -11018,13 +11021,22 @@ var App = function (_Component) {
 	function App(props) {
 		_classCallCheck(this, App);
 
-		return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+		_this.handlePopUpClose = _this.handlePopUpClose.bind(_this);
+		return _this;
 	}
 
 	_createClass(App, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.props.getUserLocation();
+		}
+	}, {
+		key: 'handlePopUpClose',
+		value: function handlePopUpClose() {
+			console.log('test');
+			this.props.setRestaurantInfo();
 		}
 	}, {
 		key: 'render',
@@ -11055,7 +11067,10 @@ var App = function (_Component) {
 					),
 					_react2.default.createElement(_RestaurantsContainer2.default, null)
 				),
-				_react2.default.createElement(_PopUp2.default, null)
+				this.props.restaurantInfo !== null ? _react2.default.createElement(_PopUp2.default, {
+					restaurantInfo: this.props.restaurantInfo,
+					handlePopUpClose: this.handlePopUpClose
+				}) : null
 			);
 		}
 	}]);
@@ -63227,10 +63242,20 @@ var _Dialog = __webpack_require__(689);
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
 
+var _FlatButton = __webpack_require__(511);
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PopUp = function PopUp(props) {
-	console.log('popupo', props);
+	var closeButton = _react2.default.createElement(_FlatButton2.default, {
+		label: 'Close',
+		primary: true,
+		onClick: function onClick() {
+			return props.handlePopUpClose();
+		}
+	});
 
 	return _react2.default.createElement(
 		'div',
@@ -63238,8 +63263,12 @@ var PopUp = function PopUp(props) {
 		_react2.default.createElement(
 			_Dialog2.default,
 			{
-				title: 'test'
-
+				title: 'test',
+				open: true,
+				actions: closeButton,
+				onRequestClose: function onRequestClose() {
+					return props.handlePopUpClose();
+				}
 			},
 			'test'
 		)

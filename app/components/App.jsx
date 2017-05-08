@@ -9,7 +9,7 @@ import Map from './Map';
 import RestaurantsContainer from './RestaurantsContainer';
 import PopUp from './PopUp';
 
-import { getUserLocation, getRestaurants, store } from '../redux'
+import { getUserLocation, getRestaurants, setRestaurantInfo, store } from '../redux'
 
 const mapStateToProps = state => ({
 	restaurantInfo: state.restaurantInfo
@@ -18,18 +18,26 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUserLocation: () => {
     dispatch(getUserLocation())
-  }
+  },
+	setRestaurantInfo: () => {
+		dispatch(setRestaurantInfo(null))
+	}
 });
 
 class App extends Component {
 	constructor (props) {
 		super(props);
+		this.handlePopUpClose = this.handlePopUpClose.bind(this);
 	}
 
 	componentDidMount () {
 		this.props.getUserLocation();
 	}
 
+	handlePopUpClose () {
+		console.log('test')
+		this.props.setRestaurantInfo();
+	}
 
 	render () {
 		return (
@@ -45,7 +53,12 @@ class App extends Component {
 					<div id="header">Restaurants Near You</div>
 					<RestaurantsContainer />
 				</div>
-				<PopUp />
+				{this.props.restaurantInfo !== null ?
+					<PopUp
+						restaurantInfo={this.props.restaurantInfo}
+						handlePopUpClose={this.handlePopUpClose}
+					/>
+				: null}
 			</div>
 		)
 	}
