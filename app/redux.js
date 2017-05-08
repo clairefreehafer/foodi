@@ -51,23 +51,26 @@ export const getRestaurants = (lat, lng) => {
 }
 
 // create restaurant popup
-export const setSelectedRestaurant = restaurantInfo => (
+export const setRestaurantInfo = restaurantInfo => (
 	{
-		type: 'SET_SELECTED_RESTAURANT',
+		type: 'SET_RESTAURANT_INFO',
 		restaurantInfo: restaurantInfo
 	}
 )
 
 export const getRestaurantInfo = restaurantId => {
-	const getInfo = new google.maps.places.PlacesService(document.createElement('div'));
+	return dispatch => {
+		const getInfo = new google.maps.places.PlacesService(document.createElement('div'));
 
-	const infoRequest = {
-		placeID: restaurantId
-	};
+		const infoRequest = {
+			placeId: restaurantId
+		};
 
-	getInfo.getDetails(infoRequest, restaurantInfo => {
-		dispatch(setSelectedRestaurant(restaurantInfo));
-	})
+		getInfo.getDetails(infoRequest, (restaurantInfo, status) => {
+			console.log('restaurantinfo', restaurantInfo)
+			dispatch(setRestaurantInfo(restaurantInfo));
+		})
+	}
 }
 
 /*****************************/
@@ -78,7 +81,7 @@ const initialState = {
 	lat: 0,
 	lng: 0,
 	restaurants: [],
-	selectedRestaurant: null
+	restaurantInfo: null
 }
 
 export const reducer = (state = initialState, action) => {
@@ -94,9 +97,9 @@ export const reducer = (state = initialState, action) => {
 				restaurants: action.restaurants
 			});
 
-		case 'SET_SELECTED_RESTAURANT':
+		case 'SET_RESTAURANT_INFO':
 			return Object.assign({}, state, {
-				selectedRestaurant: state.restaurantInfo
+				restaurantInfo: action.restaurantInfo
 			});
 
 		default:

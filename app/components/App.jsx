@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 
 import Map from './Map';
 import RestaurantsContainer from './RestaurantsContainer';
+import PopUp from './PopUp';
 
 import { getUserLocation, getRestaurants, store } from '../redux'
 
@@ -27,12 +28,13 @@ class App extends Component {
 
 	render () {
 		return (
-			<div>
-				<AppBar title="WEAREHUNGRYTOURISTS" />
-				<div style={{ width: '100vw', height: '500px'}}>
+			<div style={{width: '100vw'}}>
+				<AppBar title="We Are Hungry Tourists" />
+				<div id="map">
 					<Map />
 				</div>
 				<div id="restaurants">
+				<div id="header">Restaurants Near You</div>
 					<RestaurantsContainer />
 				</div>
 			</div>

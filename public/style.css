@@ -2,6 +2,25 @@ body {
 	margin: 0;
 }
 
+#map {
+	width: 100vw;
+	height: 500px;
+}
+
+#header {
+	font-size: 50px;
+	text-align: center;
+}
+
+#progress {
+	margin: 0 auto;
+}
+
+#grid-list {
+	margin: 0 auto !important;
+	max-width: 1000px;
+}
+
 .rating {
 	color: white;
 	font-size: 30px;

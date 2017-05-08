@@ -2,10 +2,7 @@ import React from 'react';
 
 import PopUp from './PopUp'
 
-import { ListGroup, ListGroupItem, PageHeader } from 'react-bootstrap';
 import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
 import FontIcon from 'material-ui/FontIcon';
 import CircularProgress from 'material-ui/CircularProgress';
 
@@ -13,12 +10,10 @@ const Restaurant = (props) => {
   const restaurants = props.restaurants;
 
   return (
-    <div>
-      <PageHeader>Restaurants Near You</PageHeader>
-
     <GridList
       cellHeight={300}
       style={{ width: '100%' }}
+      id="grid-list"
     >
       {restaurants.length > 0 ? restaurants.map(restaurant => {
         return (
@@ -29,18 +24,18 @@ const Restaurant = (props) => {
             actionIcon={<div className="rating">
               <FontIcon className="material-icons" color="white">star</FontIcon>&nbsp;
               <span className="rating-number">
-                {restaurant.rating}
+                {restaurant.rating.toFixed(1)}
               </span>
             </div>}
+            onClick={() => props.onRestaurantClick(restaurant.place_id)}
           >
           {/* put in contingency for no photos */}
-            <img src={restaurant.photos[0].getUrl({maxWidth: 300, maxHeight: 300})} />
+            <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
           </GridTile>
         )
       })
-      : <CircularProgress size={100} thickness={10} />}
+      : <CircularProgress size={100} thickness={10} id="progress" />}
     </GridList>
-    </div>
   )
 }
 

@@ -10976,6 +10976,10 @@ var _RestaurantsContainer = __webpack_require__(519);
 
 var _RestaurantsContainer2 = _interopRequireDefault(_RestaurantsContainer);
 
+var _PopUp = __webpack_require__(687);
+
+var _PopUp2 = _interopRequireDefault(_PopUp);
+
 var _redux = __webpack_require__(275);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -11017,16 +11021,21 @@ var App = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				null,
-				_react2.default.createElement(_AppBar2.default, { title: 'WEAREHUNGRYTOURISTS' }),
+				{ style: { width: '100vw' } },
+				_react2.default.createElement(_AppBar2.default, { title: 'We Are Hungry Tourists' }),
 				_react2.default.createElement(
 					'div',
-					{ style: { width: '100vw', height: '500px' } },
+					{ id: 'map' },
 					_react2.default.createElement(_Map2.default, null)
 				),
 				_react2.default.createElement(
 					'div',
 					{ id: 'restaurants' },
+					_react2.default.createElement(
+						'div',
+						{ id: 'header' },
+						'Restaurants Near You'
+					),
 					_react2.default.createElement(_RestaurantsContainer2.default, null)
 				)
 			);
@@ -29551,7 +29560,7 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.store = exports.reducer = exports.getRestaurantInfo = exports.setSelectedRestaurant = exports.getRestaurants = exports.setRestaurants = exports.getUserLocation = exports.setUserLocation = undefined;
+exports.store = exports.reducer = exports.getRestaurantInfo = exports.setRestaurantInfo = exports.getRestaurants = exports.setRestaurants = exports.getUserLocation = exports.setUserLocation = undefined;
 
 var _redux = __webpack_require__(272);
 
@@ -29612,23 +29621,26 @@ var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) 
 };
 
 // create restaurant popup
-var setSelectedRestaurant = exports.setSelectedRestaurant = function setSelectedRestaurant(restaurantInfo) {
+var setRestaurantInfo = exports.setRestaurantInfo = function setRestaurantInfo(restaurantInfo) {
 	return {
-		type: 'SET_SELECTED_RESTAURANT',
+		type: 'SET_RESTAURANT_INFO',
 		restaurantInfo: restaurantInfo
 	};
 };
 
 var getRestaurantInfo = exports.getRestaurantInfo = function getRestaurantInfo(restaurantId) {
-	var getInfo = new google.maps.places.PlacesService(document.createElement('div'));
+	return function (dispatch) {
+		var getInfo = new google.maps.places.PlacesService(document.createElement('div'));
 
-	var infoRequest = {
-		placeID: restaurantId
+		var infoRequest = {
+			placeId: restaurantId
+		};
+
+		getInfo.getDetails(infoRequest, function (restaurantInfo, status) {
+			console.log('restaurantinfo', restaurantInfo);
+			dispatch(setRestaurantInfo(restaurantInfo));
+		});
 	};
-
-	getInfo.getDetails(infoRequest, function (restaurantInfo) {
-		dispatch(setSelectedRestaurant(restaurantInfo));
-	});
 };
 
 /*****************************/
@@ -29639,7 +29651,7 @@ var initialState = {
 	lat: 0,
 	lng: 0,
 	restaurants: [],
-	selectedRestaurant: null
+	restaurantInfo: null
 };
 
 var reducer = exports.reducer = function reducer() {
@@ -29658,9 +29670,9 @@ var reducer = exports.reducer = function reducer() {
 				restaurants: action.restaurants
 			});
 
-		case 'SET_SELECTED_RESTAURANT':
+		case 'SET_RESTAURANT_INFO':
 			return Object.assign({}, state, {
-				selectedRestaurant: state.restaurantInfo
+				restaurantInfo: action.restaurantInfo
 			});
 
 		default:
@@ -43887,17 +43899,7 @@ var _PopUp = __webpack_require__(687);
 
 var _PopUp2 = _interopRequireDefault(_PopUp);
 
-var _reactBootstrap = __webpack_require__(671);
-
 var _GridList = __webpack_require__(523);
-
-var _IconButton = __webpack_require__(427);
-
-var _IconButton2 = _interopRequireDefault(_IconButton);
-
-var _Subheader = __webpack_require__(525);
-
-var _Subheader2 = _interopRequireDefault(_Subheader);
 
 var _FontIcon = __webpack_require__(425);
 
@@ -43913,46 +43915,41 @@ var Restaurant = function Restaurant(props) {
   var restaurants = props.restaurants;
 
   return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      _reactBootstrap.PageHeader,
-      null,
-      'Restaurants Near You'
-    ),
-    _react2.default.createElement(
-      _GridList.GridList,
-      {
-        cellHeight: 300,
-        style: { width: '100%' }
-      },
-      restaurants.length > 0 ? restaurants.map(function (restaurant) {
-        return _react2.default.createElement(
-          _GridList.GridTile,
-          {
-            key: restaurant.id,
-            title: restaurant.name,
-            subtitle: restaurant.vicinity,
-            actionIcon: _react2.default.createElement(
-              'div',
-              { className: 'rating' },
-              _react2.default.createElement(
-                _FontIcon2.default,
-                { className: 'material-icons', color: 'white' },
-                'star'
-              ),
-              '\xA0',
-              _react2.default.createElement(
-                'span',
-                { className: 'rating-number' },
-                restaurant.rating
-              )
+    _GridList.GridList,
+    {
+      cellHeight: 300,
+      style: { width: '100%' },
+      id: 'grid-list'
+    },
+    restaurants.length > 0 ? restaurants.map(function (restaurant) {
+      return _react2.default.createElement(
+        _GridList.GridTile,
+        {
+          key: restaurant.id,
+          title: restaurant.name,
+          subtitle: restaurant.vicinity,
+          actionIcon: _react2.default.createElement(
+            'div',
+            { className: 'rating' },
+            _react2.default.createElement(
+              _FontIcon2.default,
+              { className: 'material-icons', color: 'white' },
+              'star'
+            ),
+            '\xA0',
+            _react2.default.createElement(
+              'span',
+              { className: 'rating-number' },
+              restaurant.rating.toFixed(1)
             )
-          },
-          _react2.default.createElement('img', { src: restaurant.photos[0].getUrl({ maxWidth: 300, maxHeight: 300 }) })
-        );
-      }) : _react2.default.createElement(_CircularProgress2.default, { size: 100, thickness: 10 })
-    )
+          ),
+          onClick: function onClick() {
+            return props.onRestaurantClick(restaurant.place_id);
+          }
+        },
+        _react2.default.createElement('img', { src: restaurant.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }) })
+      );
+    }) : _react2.default.createElement(_CircularProgress2.default, { size: 100, thickness: 10, id: 'progress' })
   );
 };
 
@@ -45961,6 +45958,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getRestaurants: function getRestaurants(lat, lng) {
       dispatch((0, _redux.getRestaurants)(lat, lng));
+    },
+    getRestaurantInfo: function getRestaurantInfo(restaurantId) {
+      dispatch((0, _redux.getRestaurantInfo)(restaurantId));
     }
   };
 };
@@ -45968,10 +45968,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var RestaurantsContainer = function (_Component) {
   _inherits(RestaurantsContainer, _Component);
 
-  function RestaurantsContainer() {
+  function RestaurantsContainer(props) {
     _classCallCheck(this, RestaurantsContainer);
 
-    return _possibleConstructorReturn(this, (RestaurantsContainer.__proto__ || Object.getPrototypeOf(RestaurantsContainer)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (RestaurantsContainer.__proto__ || Object.getPrototypeOf(RestaurantsContainer)).call(this));
+
+    _this.onRestaurantClick = _this.onRestaurantClick.bind(_this);
+    return _this;
   }
 
   _createClass(RestaurantsContainer, [{
@@ -45984,10 +45987,16 @@ var RestaurantsContainer = function (_Component) {
       return false;
     }
   }, {
+    key: 'onRestaurantClick',
+    value: function onRestaurantClick(restaurantId) {
+      this.props.getRestaurantInfo(restaurantId);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(_Restaurant2.default, {
-        restaurants: this.props.restaurants
+        restaurants: this.props.restaurants,
+        onRestaurantClick: this.onRestaurantClick
       });
     }
   }]);
@@ -46520,116 +46529,8 @@ exports.GridTile = _GridTile3.default;
 exports.default = _GridList3.default;
 
 /***/ }),
-/* 524 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends2 = __webpack_require__(314);
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _objectWithoutProperties2 = __webpack_require__(315);
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _simpleAssign = __webpack_require__(313);
-
-var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(10);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Subheader = function Subheader(props, context) {
-  var children = props.children,
-      inset = props.inset,
-      style = props.style,
-      other = (0, _objectWithoutProperties3.default)(props, ['children', 'inset', 'style']);
-  var _context$muiTheme = context.muiTheme,
-      prepareStyles = _context$muiTheme.prepareStyles,
-      subheader = _context$muiTheme.subheader;
-
-
-  var styles = {
-    root: {
-      boxSizing: 'border-box',
-      color: subheader.color,
-      fontSize: 14,
-      fontWeight: subheader.fontWeight,
-      lineHeight: '48px',
-      paddingLeft: inset ? 72 : 16,
-      width: '100%'
-    }
-  };
-
-  return _react2.default.createElement(
-    'div',
-    (0, _extends3.default)({}, other, { style: prepareStyles((0, _simpleAssign2.default)(styles.root, style)) }),
-    children
-  );
-};
-
-Subheader.muiName = 'Subheader';
-
-process.env.NODE_ENV !== "production" ? Subheader.propTypes = {
-  /**
-   * Node that will be placed inside the `Subheader`.
-   */
-  children: _propTypes2.default.node,
-  /**
-   * If true, the `Subheader` will be indented.
-   */
-  inset: _propTypes2.default.bool,
-  /**
-   * Override the inline-styles of the root element.
-   */
-  style: _propTypes2.default.object
-} : void 0;
-
-Subheader.defaultProps = {
-  inset: false
-};
-
-Subheader.contextTypes = {
-  muiTheme: _propTypes2.default.object.isRequired
-};
-
-exports.default = Subheader;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 525 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _Subheader = __webpack_require__(524);
-
-var _Subheader2 = _interopRequireDefault(_Subheader);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _Subheader2.default;
-
-/***/ }),
+/* 524 */,
+/* 525 */,
 /* 526 */,
 /* 527 */
 /***/ (function(module, exports, __webpack_require__) {

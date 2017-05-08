@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getRestaurants, store } from '../redux';
+import { getRestaurants, getRestaurantInfo, store } from '../redux';
 import { connect } from 'react-redux';
 
 import Restaurant from './Restaurant';
@@ -16,10 +16,17 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getRestaurants: (lat, lng) => {
     dispatch(getRestaurants(lat, lng))
-  }
+  },
+	getRestaurantInfo: restaurantId => {
+		dispatch(getRestaurantInfo(restaurantId));
+	}
 });
 
 class RestaurantsContainer extends Component {
+	constructor (props) {
+		super();
+		this.onRestaurantClick = this.onRestaurantClick.bind(this);
+	}
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.lat !== this.props.lat || nextProps.lng !== this.props.lng) {
@@ -29,10 +36,15 @@ class RestaurantsContainer extends Component {
     return false;
   }
 
+	onRestaurantClick (restaurantId) {
+		this.props.getRestaurantInfo(restaurantId);
+	}
+
   render () {
     return (
 			<Restaurant
 				restaurants={this.props.restaurants}
+				onRestaurantClick={this.onRestaurantClick}
 			/>
     )
   }
