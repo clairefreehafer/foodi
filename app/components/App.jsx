@@ -46,9 +46,9 @@ class App extends Component {
 					title="We Are Hungry Tourists"
 					iconElementLeft={<IconButton><LocalDining /></IconButton>}
 				/>
-				<div id="map">
+				{/*<div id="map">
 					<Map />
-				</div>
+				</div>*/}
 				<div id="restaurants">
 					<div id="header">Restaurants Near You</div>
 					<RestaurantsContainer />

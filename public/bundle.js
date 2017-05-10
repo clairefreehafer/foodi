@@ -11981,9 +11981,17 @@ var _Dialog = __webpack_require__(425);
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
 
+var _Divider = __webpack_require__(675);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
 var _FlatButton = __webpack_require__(198);
 
 var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _FontIcon = __webpack_require__(123);
+
+var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12008,26 +12016,26 @@ var PopUp = function PopUp(props) {
 	var lat = info.geometry.location.lat();
 	var lng = info.geometry.location.lng();
 
-	var mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=' + lat + ',' + lng + '&zoom=15&size=400x400';
+	var mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=' + lat + ',' + lng + '&zoom=15&size=768x300';
 
 	return _react2.default.createElement(
-		'div',
-		null,
+		_Dialog2.default,
+		{
+			title: info.name,
+			open: true,
+			actions: closeButton,
+			autoScrollBodyContent: true,
+			contentStyle: dialogStyles,
+			onRequestClose: function onRequestClose() {
+				return props.handlePopUpClose();
+			}
+		},
+		_react2.default.createElement('img', { src: mapUrl }),
 		_react2.default.createElement(
-			_Dialog2.default,
-			{
-				title: info.name,
-				open: true,
-				actions: closeButton,
-				autoScrollBodyContent: true,
-				contentStyle: dialogStyles,
-				onRequestClose: function onRequestClose() {
-					return props.handlePopUpClose();
-				}
-			},
-			_react2.default.createElement('img', { src: mapUrl }),
+			'div',
+			{ id: 'info' },
 			_react2.default.createElement(
-				'b',
+				'h3',
 				null,
 				'Open Now?'
 			),
@@ -12041,15 +12049,54 @@ var PopUp = function PopUp(props) {
 				null,
 				'No'
 			),
-			_react2.default.createElement('br', null),
 			_react2.default.createElement(
-				'b',
+				'h3',
 				null,
-				'Address:'
+				'Phone:'
 			),
-			_react2.default.createElement('br', null),
-			'gm',
-			info.formatted_address
+			info.formatted_phone_number
+		),
+		_react2.default.createElement(
+			'div',
+			{ id: 'reviews' },
+			_react2.default.createElement(
+				'h2',
+				null,
+				'Reviews'
+			),
+			_react2.default.createElement(
+				'h3',
+				null,
+				_react2.default.createElement(
+					'a',
+					{ href: 'https://search.google.com/local/writereview?placeid=' + info.place_id, target: '_blank' },
+					'Leave a review ',
+					_react2.default.createElement(
+						_FontIcon2.default,
+						{ className: 'material-icons', id: 'open-in-new' },
+						'open_in_new'
+					)
+				)
+			),
+			_react2.default.createElement(_Divider2.default, null),
+			info.reviews.map(function (review) {
+				return _react2.default.createElement(
+					'div',
+					{ key: review.time, className: 'review' },
+					_react2.default.createElement(
+						'h4',
+						null,
+						review.author_name,
+						' said ',
+						review.relative_time_description,
+						' with a ',
+						review.rating,
+						'-star rating:'
+					),
+					review.text,
+					_react2.default.createElement(_Divider2.default, null)
+				);
+			})
 		)
 	);
 };
@@ -22081,11 +22128,6 @@ var App = function (_Component) {
 						_react2.default.createElement(_localDining2.default, null)
 					)
 				}),
-				_react2.default.createElement(
-					'div',
-					{ id: 'map' },
-					_react2.default.createElement(_Map2.default, null)
-				),
 				_react2.default.createElement(
 					'div',
 					{ id: 'restaurants' },
@@ -64731,6 +64773,106 @@ module.exports = function() {
 	throw new Error("define cannot be used indirect");
 };
 
+
+/***/ }),
+/* 674 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends2 = __webpack_require__(6);
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = __webpack_require__(7);
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+var _simpleAssign = __webpack_require__(16);
+
+var _simpleAssign2 = _interopRequireDefault(_simpleAssign);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(5);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Divider = function Divider(props, context) {
+  var inset = props.inset,
+      style = props.style,
+      other = (0, _objectWithoutProperties3.default)(props, ['inset', 'style']);
+  var _context$muiTheme = context.muiTheme,
+      baseTheme = _context$muiTheme.baseTheme,
+      prepareStyles = _context$muiTheme.prepareStyles;
+
+
+  var styles = {
+    root: {
+      margin: 0,
+      marginTop: -1,
+      marginLeft: inset ? 72 : 0,
+      height: 1,
+      border: 'none',
+      backgroundColor: baseTheme.palette.borderColor
+    }
+  };
+
+  return _react2.default.createElement('hr', (0, _extends3.default)({}, other, { style: prepareStyles((0, _simpleAssign2.default)(styles.root, style)) }));
+};
+
+Divider.muiName = 'Divider';
+
+process.env.NODE_ENV !== "production" ? Divider.propTypes = {
+  /**
+   * If true, the `Divider` will be indented.
+   */
+  inset: _propTypes2.default.bool,
+  /**
+   * Override the inline-styles of the root element.
+   */
+  style: _propTypes2.default.object
+} : void 0;
+
+Divider.defaultProps = {
+  inset: false
+};
+
+Divider.contextTypes = {
+  muiTheme: _propTypes2.default.object.isRequired
+};
+
+exports.default = Divider;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 675 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _Divider = __webpack_require__(674);
+
+var _Divider2 = _interopRequireDefault(_Divider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _Divider2.default;
 
 /***/ })
 /******/ ]);

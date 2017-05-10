@@ -1,7 +1,9 @@
 import React from 'react';
 
 import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
+import FontIcon from 'material-ui/FontIcon';
 
 const PopUp = (props) => {
 	var dialogStyles = {
@@ -22,10 +24,9 @@ const PopUp = (props) => {
 	const lat = info.geometry.location.lat();
 	const lng = info.geometry.location.lng();
 
-	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=${lat},${lng}&zoom=15&size=400x400`
+	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=${lat},${lng}&zoom=15&size=768x300`
 
 	return (
-		<div>
 		<Dialog
 			title={info.name}
 			open={true}
@@ -35,13 +36,26 @@ const PopUp = (props) => {
 			onRequestClose={() => props.handlePopUpClose()}
 		>
 			<img src={mapUrl} />
-			<b>Open Now?</b> {info.opening_hours.open_now ? <span>Yes</span> : <span>No</span>}<br />
 
-			<b>Address:</b><br />gm
+			<div id="info">
+				<h3>Open Now?</h3> {info.opening_hours.open_now ? <span>Yes</span> : <span>No</span>}
+				<h3>Phone:</h3>
+				{info.formatted_phone_number}
+			</div>
+			<div id="reviews">
+				<h2>Reviews</h2>
+				<h3><a href={`https://search.google.com/local/writereview?placeid=${info.place_id}`} target="_blank">Leave a review <FontIcon className="material-icons" id="open-in-new">open_in_new</FontIcon></a></h3>
+				<Divider />
+				{info.reviews.map(review =>(
+					<div key={review.time} className="review">
+						<h4>{review.author_name} said {review.relative_time_description} with a {review.rating}-star rating:</h4>
+						{review.text}
+						<Divider />
+					</div>
+				))}
 
-			{info.formatted_address}
+			</div>
 		</Dialog>
-		</div>
 	)
 };
 

@@ -2,6 +2,31 @@ body {
 	margin: 0;
 }
 
+h2 {
+	border-bottom-color: rgb(238, 238, 238);
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	color: rgb(0, 0, 0);
+	font-family: "Roboto", sans-serif;
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 32px;
+	margin-bottom: 16px;
+	padding-bottom: 7px;
+}
+
+h3 {
+	color: rgb(0, 0, 0);
+	font-size: 20px;
+	font-weight: normal;
+	line-height: 28px;
+	margin-top: 20px;
+}
+
+hr {
+	margin: 30px !important;
+}
+
 #map {
 	width: 100vw;
 	height: 500px;
@@ -31,4 +56,12 @@ body {
 .rating-number {
 	display: inline-block;
 	font-weight: 100;
+}
+
+#restaurant-window {
+	line-height: 18px;
+}
+
+#open-in-new {
+	font-size: 18px !important;
 }
