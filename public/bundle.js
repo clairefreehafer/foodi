@@ -12016,7 +12016,7 @@ var PopUp = function PopUp(props) {
 	var lat = info.geometry.location.lat();
 	var lng = info.geometry.location.lng();
 
-	var mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=' + lat + ',' + lng + '&zoom=15&size=768x300';
+	var mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=' + lat + ',' + lng + '&zoom=15&size=640x300';
 
 	return _react2.default.createElement(
 		_Dialog2.default,
@@ -12030,31 +12030,51 @@ var PopUp = function PopUp(props) {
 				return props.handlePopUpClose();
 			}
 		},
-		_react2.default.createElement('img', { src: mapUrl }),
+		_react2.default.createElement('img', { src: mapUrl, style: { marginLeft: '40px', marginRight: '40px' } }),
 		_react2.default.createElement(
 			'div',
 			{ id: 'info' },
 			_react2.default.createElement(
-				'h3',
-				null,
-				'Open Now?'
-			),
-			' ',
-			info.opening_hours.open_now ? _react2.default.createElement(
-				'span',
-				null,
-				'Yes'
-			) : _react2.default.createElement(
-				'span',
-				null,
-				'No'
+				'div',
+				{ className: 'info-box' },
+				_react2.default.createElement(
+					'h3',
+					null,
+					'Open Now?'
+				),
+				' ',
+				info.opening_hours.open_now ? _react2.default.createElement(
+					'span',
+					null,
+					'Yes'
+				) : _react2.default.createElement(
+					'span',
+					null,
+					'No'
+				)
 			),
 			_react2.default.createElement(
-				'h3',
-				null,
-				'Phone:'
+				'div',
+				{ className: 'info-box' },
+				_react2.default.createElement(
+					'h3',
+					null,
+					'Address'
+				),
+				' ',
+				info.formatted_address
 			),
-			info.formatted_phone_number
+			_react2.default.createElement(
+				'div',
+				{ className: 'info-box' },
+				_react2.default.createElement(
+					'h3',
+					null,
+					'Phone'
+				),
+				' ',
+				info.formatted_phone_number
+			)
 		),
 		_react2.default.createElement(
 			'div',

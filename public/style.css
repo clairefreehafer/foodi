@@ -58,6 +58,16 @@ hr {
 	font-weight: 100;
 }
 
+#info {
+	display: flex;
+	flex-direction: row;
+}
+
+.info-box {
+	flex-grow: 1;
+	text-align: center;
+}
+
 #restaurant-window {
 	line-height: 18px;
 }

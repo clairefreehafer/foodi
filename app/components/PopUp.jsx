@@ -24,7 +24,7 @@ const PopUp = (props) => {
 	const lat = info.geometry.location.lat();
 	const lng = info.geometry.location.lng();
 
-	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=${lat},${lng}&zoom=15&size=768x300`
+	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=${lat},${lng}&zoom=15&size=640x300`
 
 	return (
 		<Dialog
@@ -35,12 +35,18 @@ const PopUp = (props) => {
 			contentStyle={ dialogStyles }
 			onRequestClose={() => props.handlePopUpClose()}
 		>
-			<img src={mapUrl} />
+			<img src={mapUrl} style={{marginLeft: '40px', marginRight: '40px'}} />
 
 			<div id="info">
-				<h3>Open Now?</h3> {info.opening_hours.open_now ? <span>Yes</span> : <span>No</span>}
-				<h3>Phone:</h3>
-				{info.formatted_phone_number}
+				<div className="info-box">
+					<h3>Open Now?</h3> {info.opening_hours.open_now ? <span>Yes</span> : <span>No</span>}
+				</div>
+				<div className="info-box">
+					<h3>Address</h3> {info.formatted_address}
+				</div>
+				<div className="info-box">
+					<h3>Phone</h3> {info.formatted_phone_number}
+				</div>
 			</div>
 			<div id="reviews">
 				<h2>Reviews</h2>
