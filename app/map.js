@@ -1,3 +1,4 @@
+/** map styling JSON */
 const mapStyles = [
 	{
 		"featureType": "administrative",
@@ -56,6 +57,10 @@ const mapStyles = [
 	}
 ];
 
+/**
+ * function to create our map. this is called in RestaurantsContainer
+ * when it receives props for the current location.
+ */
 export const initMap = (lat, lng, restaurants) => {
 	let map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat, lng},
@@ -64,6 +69,7 @@ export const initMap = (lat, lng, restaurants) => {
 		styles: mapStyles
 	});
 
+	/** create map markers for each restaurant */
 	restaurants.forEach(restaurant => {
 		let pos = {
 			lat: restaurant.geometry.location.lat(),

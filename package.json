@@ -9,23 +9,21 @@
     "build": "webpack",
     "build-css": "node-sass -w assets/style.scss -o public",
     "build-watch": "npm run build -- -w",
-    "start": "webpack -- -w && nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Claire Freehafer <claire.freehafer@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "google-map-react": "^0.24.0",
     "material-ui": "^0.18.0",
     "path": "^0.12.7",
     "react": "^15.5.4",
-    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.4",
-    "react-gmaps": "^1.5.0",
     "react-redux": "^5.0.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0"
   },

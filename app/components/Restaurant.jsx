@@ -1,7 +1,6 @@
 import React from 'react';
 
-import PopUp from './PopUp'
-
+/** material-ui components for styling */
 import { GridList, GridTile } from 'material-ui/GridList';
 import FontIcon from 'material-ui/FontIcon';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -11,6 +10,10 @@ const Restaurant = (props) => {
 
   return (
     <div>
+      {/*
+        * once a list of restaurants has been received from the google maps places
+        * api, the list will load. until then, the loading circle shows.
+       */}
       {restaurants.length > 0 ? <h1 id="header">Restaurants Within 10km</h1> : null}
       <GridList
         cellHeight={300}
@@ -18,6 +21,7 @@ const Restaurant = (props) => {
         id="grid-list"
       >
         {restaurants.length > 0 ? restaurants.map(restaurant => {
+          {/* render each restaurant name, address, and star rating */}
           return (
             <GridTile
               key={restaurant.id}
@@ -31,12 +35,17 @@ const Restaurant = (props) => {
               </div>}
               onClick={() => props.onRestaurantClick(restaurant.place_id)}
             >
-
-              {restaurant.photos ? <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
+              {/*
+                * if the restaurant has no photos associated with it,
+                * we render a placeholder.
+              */}
+              {restaurant.photos ?
+                <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
               : <img src="/no-image.png" />}
             </GridTile>
           )
         })
+
         : <CircularProgress color={'rgb(234, 57, 35)'} size={100} thickness={10} id="progress" />}
       </GridList>
     </div>

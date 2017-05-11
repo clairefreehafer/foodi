@@ -4318,7 +4318,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /********** ACTION CREATORS **********/
 /*************************************/
 
-// push user's location to the store
+/** Action creator for setting user's current location */
+
+/** Outputs action and store updates to the console */
 var setUserLocation = exports.setUserLocation = function setUserLocation(lat, lng) {
 	return {
 		type: 'SET_USER_LOCATION',
@@ -4326,6 +4328,14 @@ var setUserLocation = exports.setUserLocation = function setUserLocation(lat, ln
 	};
 };
 
+/**
+ * Action creator for getting user's current location from
+ * the browser geolocation. thunk middleware allows our action
+ * creators to return functions.
+ */
+
+/** Allows actions with side-effects */
+/** Redux modules to manage our store */
 var getUserLocation = exports.getUserLocation = function getUserLocation() {
 	var location = navigator.geolocation;
 
@@ -4340,7 +4350,7 @@ var getUserLocation = exports.getUserLocation = function getUserLocation() {
 	};
 };
 
-// set closest restaurants
+/** Action creator for setting the closest restaurants */
 var setRestaurants = exports.setRestaurants = function setRestaurants(restaurants) {
 	return {
 		type: 'SET_RESTAURANTS',
@@ -4348,10 +4358,15 @@ var setRestaurants = exports.setRestaurants = function setRestaurants(restaurant
 	};
 };
 
+/**
+ * Action creator for requesting closest restaurants from the
+ * Google Places API.
+ */
 var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) {
 	return function (dispatch) {
 		var placeService = new google.maps.places.PlacesService(document.createElement('div'));
 
+		/** radius is in meters */
 		var request = {
 			location: new google.maps.LatLng(lat, lng),
 			radius: 10000,
@@ -4364,7 +4379,7 @@ var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) 
 	};
 };
 
-// create restaurant popup
+/** set the info for the selected restaurant, triggering the pop up */
 var setRestaurantInfo = exports.setRestaurantInfo = function setRestaurantInfo(restaurantInfo) {
 	return {
 		type: 'SET_RESTAURANT_INFO',
@@ -4372,6 +4387,7 @@ var setRestaurantInfo = exports.setRestaurantInfo = function setRestaurantInfo(r
 	};
 };
 
+/** request more information on the selected restaurant from google */
 var getRestaurantInfo = exports.getRestaurantInfo = function getRestaurantInfo(restaurantId) {
 	return function (dispatch) {
 		var infoService = new google.maps.places.PlacesService(document.createElement('div'));
@@ -4390,6 +4406,7 @@ var getRestaurantInfo = exports.getRestaurantInfo = function getRestaurantInfo(r
 /********** REDUCER **********/
 /*****************************/
 
+/** arbitrary initial state, to prevent errors */
 var initialState = {
 	lat: 0,
 	lng: 0,
@@ -4397,6 +4414,7 @@ var initialState = {
 	restaurantInfo: null
 };
 
+/** defining our actions to update the store */
 var reducer = exports.reducer = function reducer() {
 	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	var action = arguments[1];
@@ -4427,9 +4445,10 @@ var reducer = exports.reducer = function reducer() {
 /********** STORE **********/
 /***************************/
 
-// redux devtools
+/** allow use of redux devtools chrome extension */
 var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 
+/** create our store and apply our middleware */
 var store = exports.store = (0, _redux.createStore)(reducer, composeEnhancers((0, _redux.applyMiddleware)((0, _reduxLogger.createLogger)(), _reduxThunk2.default)));
 
 /***/ }),
@@ -9202,16 +9221,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/** function to initiate our map */
+
+
+/**
+ * access current latitude and longitude from the store to center
+ * the map, and the array of restaurants to set the markers.
+ */
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		lat: state.lat,
 		lng: state.lng,
 		restaurants: state.restaurants
 	};
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	return {};
 };
 
 var GoogleMap = function (_Component) {
@@ -9225,6 +9247,12 @@ var GoogleMap = function (_Component) {
 
 	_createClass(GoogleMap, [{
 		key: 'componentWillReceiveProps',
+
+		/**
+   * when this component receives updated props from the store
+   * (only happening on page load), it will render the map with
+   * the appropriate center and markers.
+   */
 		value: function componentWillReceiveProps(nextProps) {
 			(0, _map.initMap)(nextProps.lat, nextProps.lng, nextProps.restaurants);
 		}
@@ -9238,7 +9266,7 @@ var GoogleMap = function (_Component) {
 	return GoogleMap;
 }(_react.Component);
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GoogleMap);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(GoogleMap);
 
 /***/ }),
 /* 127 */
@@ -9273,7 +9301,12 @@ var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/** material ui components */
 var PopUp = function PopUp(props) {
+	/**
+  * inline styles for the pop up to override anything else.
+  * it renders in a funky spot without this.
+  */
 	var dialogStyles = {
 		position: 'absolute',
 		left: '50%',
@@ -9281,6 +9314,10 @@ var PopUp = function PopUp(props) {
 		transform: 'translate(-50%, -50%)'
 	};
 
+	/**
+  * close button at bottom of pop up, passed as a prop
+  * to the material ui Dialog component
+  */
 	var closeButton = _react2.default.createElement(_FlatButton2.default, {
 		label: 'Close',
 		primary: true,
@@ -9292,9 +9329,11 @@ var PopUp = function PopUp(props) {
 
 	var info = props.restaurantInfo;
 
+	/** get the restaurant latitude and longitude for the map */
 	var lat = info.geometry.location.lat();
 	var lng = info.geometry.location.lng();
 
+	{/* the unfortunate way to style static maps :p */}
 	var mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=color:0xEA3923|' + lat + ',' + lng + '&zoom=15&size=640x300&style=feature:administrative|element:all|visibility:simplified&style=feature:landscape|element:geometry|visibility:simplified|color:0xfcfcfc&style=feature:poi|element:geometry|visibility:simplified|color:0xfcfcfc&style=feature:road.highway|element:geometry|visibility:simplified|color:0xdddddd&style=feature:road.arterial|element:geometry|visibility:simplified|color:0xdddddd&style=feature:road.local|element:geometry|visibility:simplified|color:0xeeeeee&style=feature:water|element:geometry|visibility:simplifeid|color:0xdddddd';
 
 	return _react2.default.createElement(
@@ -15343,13 +15382,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/** to get our store and dispatch functions */
 
+
+/** material-ui components */
+
+
+/**
+ * component for our map, list of restaurants, and pop up once user
+ * clicks on a restaurant
+ */
+
+
+/**
+ * action creators for getting user's location from the browser
+ * and for setting the information for our selected restaurant.
+ * this is what triggers the pop up to render on click.
+ */
+
+
+/** retrieve the info for the selected restaurant from the store */
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		restaurantInfo: state.restaurantInfo
 	};
 };
 
+/**
+ * our action creators must be mapped to our props in order
+ * for information to be properly dispatched to the store
+ */
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
 		getUserLocation: function getUserLocation() {
@@ -15360,6 +15422,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		}
 	};
 };
+
+/** main component which renders the entire application */
 
 var App = function (_Component) {
 	_inherits(App, _Component);
@@ -15373,16 +15437,31 @@ var App = function (_Component) {
 		return _this;
 	}
 
+	/** get the user's location once the App comonent has mounted */
+
+
 	_createClass(App, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.props.getUserLocation();
 		}
+
+		/**
+   * sets restaurantInfo in our store back to null,
+   * triggering the pop-up to close
+   */
+
 	}, {
 		key: 'handlePopUpClose',
 		value: function handlePopUpClose() {
 			this.props.setRestaurantInfo();
 		}
+
+		/**
+   * the render function for our App component. inline styles are used to
+   * override any default styles from the window or material-ui components.
+   */
+
 	}, {
 		key: 'render',
 		value: function render() {
@@ -15572,10 +15651,6 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _PopUp = __webpack_require__(127);
-
-var _PopUp2 = _interopRequireDefault(_PopUp);
-
 var _GridList = __webpack_require__(349);
 
 var _FontIcon = __webpack_require__(96);
@@ -15607,6 +15682,7 @@ var Restaurant = function Restaurant(props) {
         id: 'grid-list'
       },
       restaurants.length > 0 ? restaurants.map(function (restaurant) {
+        {/* render each restaurant name, address, and star rating */}
         return _react2.default.createElement(
           _GridList.GridTile,
           {
@@ -15639,6 +15715,7 @@ var Restaurant = function Restaurant(props) {
   );
 };
 
+/** material-ui components for styling */
 exports.default = Restaurant;
 
 /***/ }),
@@ -15679,7 +15756,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/** import our action creators for getting the restaurants */
 
+
+/** restaurant dumb component to be rendered */
+
+
+/** material-ui components */
+
+
+/**
+ * retrieve the current location and list of restaurants from the store.
+ * the location is used to get the local restaurants, and the list of
+ * restaurant is sent down to the Restaurant component as props.
+ */
 var mapStateToProps = function mapStateToProps(state) {
   return {
     lat: state.lat,
@@ -15688,6 +15778,11 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
+/**
+ * our getRestaurants dispatcher sends the local restaurants
+ * to the store. getRestaurantInfo gets more specific information
+ * for whichever restaurant the user has clicked.
+ */
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getRestaurants: function getRestaurants(lat, lng) {
@@ -15711,6 +15806,12 @@ var RestaurantsContainer = function (_Component) {
     return _this;
   }
 
+  /**
+   * the component will re-render when the location is updated.
+   * this accounts for the asyncronicity of getting a user's location.
+   */
+
+
   _createClass(RestaurantsContainer, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
@@ -15720,6 +15821,13 @@ var RestaurantsContainer = function (_Component) {
       }
       return false;
     }
+
+    /**
+     * when the user clicks on a restaurant, the restaurant id is dispatched
+     * in order to recieve more information. this function is sent down to
+     * Restaurant as props and used there.
+     */
+
   }, {
     key: 'onRestaurantClick',
     value: function onRestaurantClick(restaurantId) {
@@ -15773,6 +15881,11 @@ var _redux = __webpack_require__(59);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/** our root component */
+
+/** provider for our store */
+
+/** react router for routing */
 (0, _reactDom.render)(_react2.default.createElement(
 	_reactRedux.Provider,
 	{ store: _redux.store },
@@ -15787,6 +15900,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 	)
 ), document.getElementById('app'));
 
+/** our redux store */
+
+/** theme provider for material-ui components */
+
+/** react-dom to render the components */
+
 /***/ }),
 /* 211 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -15797,6 +15916,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+/** map styling JSON */
 var mapStyles = [{
 	"featureType": "administrative",
 	"elementType": "all",
@@ -15853,6 +15973,10 @@ var mapStyles = [{
 	}]
 }];
 
+/**
+ * function to create our map. this is called in RestaurantsContainer
+ * when it receives props for the current location.
+ */
 var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: lat, lng: lng },
@@ -15861,6 +15985,7 @@ var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 		styles: mapStyles
 	});
 
+	/** create map markers for each restaurant */
 	restaurants.forEach(function (restaurant) {
 		var pos = {
 			lat: restaurant.geometry.location.lat(),
