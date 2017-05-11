@@ -16085,11 +16085,7 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var GoogleMap = function GoogleMap(props) {
-	return _react2.default.createElement(
-		"div",
-		{ id: "map" },
-		"POOP"
-	);
+	return _react2.default.createElement("div", { id: "map" });
 };
 
 exports.default = GoogleMap;
@@ -48531,7 +48527,8 @@ Object.defineProperty(exports, "__esModule", {
 var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: lat, lng: lng },
-		zoom: 12
+		zoom: 11,
+		disableDefaultUI: true
 	});
 
 	restaurants.forEach(function (restaurant) {
@@ -48543,7 +48540,8 @@ var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 		var marker = new google.maps.Marker({
 			position: pos,
 			map: map,
-			title: 'Hello World!'
+			animation: google.maps.Animation.DROP,
+			icon: 'http://www.googlemapsmarkers.com/v1/EA3923/'
 		});
 	});
 };

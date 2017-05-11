@@ -1,7 +1,8 @@
 export const initMap = (lat, lng, restaurants) => {
 	let map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat, lng},
-		zoom: 12
+		zoom: 11,
+		disableDefaultUI: true
 	});
 
 	restaurants.forEach(restaurant => {
@@ -13,7 +14,8 @@ export const initMap = (lat, lng, restaurants) => {
 		let marker = new google.maps.Marker({
     	position: pos,
 			map: map,
-    	title: 'Hello World!'
+    	animation: google.maps.Animation.DROP,
+			icon: 'http://www.googlemapsmarkers.com/v1/EA3923/'
 		});
 	});
 }
