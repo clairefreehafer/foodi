@@ -15,6 +15,10 @@ import GoogleMap from './GoogleMap';
 const mapDispatchToProps = dispatch => ({});
 
 class Map extends Component {
+	componentWillReceiveProps (nextProps) {
+		console.log('PROPS', nextProps)
+	}
+
 	getUserLocation () {
 		const location = navigator.geolocation;
 

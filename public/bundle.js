@@ -16069,9 +16069,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 207 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token (4:10)\n\n\u001b[0m \u001b[90m 2 | \u001b[39m\n \u001b[90m 3 | \u001b[39m\u001b[36mconst\u001b[39m \u001b[33mGoogleMap\u001b[39m \u001b[33m=\u001b[39m props \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 4 | \u001b[39m\t\u001b[36mconst\u001b[39m map\u001b[33m;\u001b[39m\n \u001b[90m   | \u001b[39m\t         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 5 | \u001b[39m\t\u001b[36mfunction\u001b[39m initMap() {\n \u001b[90m 6 | \u001b[39m\t\tmap \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m google\u001b[33m.\u001b[39mmaps\u001b[33m.\u001b[39m\u001b[33mMap\u001b[39m(document\u001b[33m.\u001b[39mgetElementById(\u001b[32m'map'\u001b[39m)\u001b[33m,\u001b[39m {\n \u001b[90m 7 | \u001b[39m\t\t\tcenter\u001b[33m:\u001b[39m {lat\u001b[33m:\u001b[39m \u001b[33m-\u001b[39m\u001b[35m34.397\u001b[39m\u001b[33m,\u001b[39m lng\u001b[33m:\u001b[39m \u001b[35m150.644\u001b[39m}\u001b[33m,\u001b[39m\u001b[0m\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GoogleMap = function GoogleMap(props) {
+	return _react2.default.createElement(
+		"div",
+		{ id: "map" },
+		"POOP"
+	);
+};
+
+exports.default = GoogleMap;
 
 /***/ }),
 /* 208 */
@@ -16132,6 +16153,11 @@ var Map = function (_Component) {
 	}
 
 	_createClass(Map, [{
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			console.log('PROPS', nextProps);
+		}
+	}, {
 		key: 'getUserLocation',
 		value: function getUserLocation() {
 			var _this2 = this;
