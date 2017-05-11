@@ -42,10 +42,12 @@ class RestaurantsContainer extends Component {
 
   render () {
     return (
-			<Restaurant
-				restaurants={this.props.restaurants}
-				onRestaurantClick={this.onRestaurantClick}
-			/>
+      <div>
+        <Restaurant
+          restaurants={this.props.restaurants}
+          onRestaurantClick={this.onRestaurantClick}
+        />
+      </div>
     )
   }
 }

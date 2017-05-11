@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-const GoogleMap = props => {
-	return (
-		<div id="map">
-			Map loading...
-		</div>
-	)
+import { initMap } from '../map';
+
+ const mapStateToProps = state => ({
+	lat: state.lat,
+	lng: state.lng,
+	restaurants: state.restaurants
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+class GoogleMap extends Component {
+	componentWillReceiveProps (nextProps) {
+		initMap(nextProps.lat, nextProps.lng, nextProps.restaurants);
+	}
+
+  render() {
+    return <div id="map">mnbm</div>
+  }
 }
 
-export default GoogleMap;
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleMap);
