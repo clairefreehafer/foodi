@@ -14,19 +14,18 @@ import GoogleMap from './GoogleMap';
 
 const mapDispatchToProps = dispatch => ({});
 
+let map;
+
+function initMap(lat, lng) {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat, lng},
+		zoom: 12
+	});
+}
+
 class Map extends Component {
 	componentWillReceiveProps (nextProps) {
-		console.log('PROPS', nextProps)
-	}
-
-	getUserLocation () {
-		const location = navigator.geolocation;
-
-		if (location) {
-			location.getCurrentPosition(position => {
-				this.props.setUserLocation(position.coords.latitude, position.coords.longitude);
-			})
-		}
+		initMap(nextProps.lat, nextProps.lng);
 	}
 
   render() {

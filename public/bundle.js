@@ -16143,6 +16143,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {};
 };
 
+var map = void 0;
+
+function initMap(lat, lng) {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: { lat: lat, lng: lng },
+		zoom: 12
+	});
+}
+
 var Map = function (_Component) {
 	_inherits(Map, _Component);
 
@@ -16155,20 +16164,7 @@ var Map = function (_Component) {
 	_createClass(Map, [{
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
-			console.log('PROPS', nextProps);
-		}
-	}, {
-		key: 'getUserLocation',
-		value: function getUserLocation() {
-			var _this2 = this;
-
-			var location = navigator.geolocation;
-
-			if (location) {
-				location.getCurrentPosition(function (position) {
-					_this2.props.setUserLocation(position.coords.latitude, position.coords.longitude);
-				});
-			}
+			initMap(nextProps.lat, nextProps.lng);
 		}
 	}, {
 		key: 'render',
