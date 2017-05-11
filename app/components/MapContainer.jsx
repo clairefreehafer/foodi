@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
 
 import { getUserLocation, store } from '../redux';
+import { initMap } from '../map';
 
 import GoogleMap from './GoogleMap';
 
@@ -14,18 +15,10 @@ import GoogleMap from './GoogleMap';
 
 const mapDispatchToProps = dispatch => ({});
 
-let map;
-
-function initMap(lat, lng) {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat, lng},
-		zoom: 12
-	});
-}
 
 class Map extends Component {
 	componentWillReceiveProps (nextProps) {
-		initMap(nextProps.lat, nextProps.lng);
+		initMap(nextProps.lat, nextProps.lng, nextProps.restaurants);
 	}
 
   render() {

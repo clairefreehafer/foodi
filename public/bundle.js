@@ -16119,6 +16119,8 @@ var _reactRedux = __webpack_require__(60);
 
 var _redux = __webpack_require__(59);
 
+var _map = __webpack_require__(519);
+
 var _GoogleMap = __webpack_require__(207);
 
 var _GoogleMap2 = _interopRequireDefault(_GoogleMap);
@@ -16143,15 +16145,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {};
 };
 
-var map = void 0;
-
-function initMap(lat, lng) {
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: { lat: lat, lng: lng },
-		zoom: 12
-	});
-}
-
 var Map = function (_Component) {
 	_inherits(Map, _Component);
 
@@ -16164,7 +16157,7 @@ var Map = function (_Component) {
 	_createClass(Map, [{
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
-			initMap(nextProps.lat, nextProps.lng);
+			(0, _map.initMap)(nextProps.lat, nextProps.lng, nextProps.restaurants);
 		}
 	}, {
 		key: 'render',
@@ -48524,6 +48517,25 @@ module.exports = function() {
 	throw new Error("define cannot be used indirect");
 };
 
+
+/***/ }),
+/* 519 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: { lat: lat, lng: lng },
+		zoom: 12
+	});
+
+	console.log('restaurants', restaurants);
+};
 
 /***/ })
 /******/ ]);
