@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import { getUserLocation, store } from '../redux';
 
-import { OverlayTrigger, Popover } from 'react-bootstrap';
-import FontIcon from 'material-ui/FontIcon';
+import GoogleMap from './GoogleMap';
 
  const mapStateToProps = state => ({
 	lat: state.lat,
@@ -33,30 +32,13 @@ class Map extends Component {
 			lng: this.props.lng
 		};
 
-		if (restaurants.length > 0) console.log('location', restaurants[0].geometry.location.lat())
+		// if (restaurants.length > 0) console.log('location', restaurants[0].geometry.location.lat())
 
     return (
-			<div id="overlay">
-				<GoogleMapReact
-					bootstrapURLKeys={{
-						key: 'AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM',
-						libraries: 'places'
-					}}
-					defaultCenter={{lat: 0, lng: 0}}
-					defaultZoom={12}
-					center={currentLocation}
-					options={{disableDefaultUI: true}}
-				>
-				{restaurants.length > 0 ? restaurants.map(restaurant => (
-					<FontIcon
-						className="material-icons marker"
-						lat={restaurant.geometry.location.lat()}
-						lng={restaurant.geometry.location.lng()}
-						zIndex={1}
-					>place</FontIcon>))
-				: null}
-
-				</GoogleMapReact>
+			<div>
+				<GoogleMap
+					restaurants={restaurants}
+				/>
 			</div>
     );
   }

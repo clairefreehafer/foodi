@@ -5,7 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import LocalDining from 'material-ui/svg-icons/maps/local-dining';
 
-import Map from './Map';
+import MapContainer from './MapContainer';
 import RestaurantsContainer from './RestaurantsContainer';
 import PopUp from './PopUp';
 
@@ -47,7 +47,7 @@ class App extends Component {
 					iconElementLeft={<IconButton><LocalDining /></IconButton>}
 				/>
 				<div id="map">
-					<Map />
+					<MapContainer />
 				</div>
 				<div id="restaurants">
 					<h1 id="header">Restaurants Within 10km</h1>
