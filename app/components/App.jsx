@@ -46,7 +46,9 @@ class App extends Component {
 					style={{backgroundColor: 'rgb(234, 57, 35)'}}
 					iconElementLeft={<IconButton><LocalDining /></IconButton>}
 				/>
-				<GoogleMap />
+				<div id="overlay">
+					<GoogleMap />
+				</div>
 				<div id="restaurants">
 					<RestaurantsContainer />
 				</div>

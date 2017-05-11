@@ -9231,11 +9231,7 @@ var GoogleMap = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				{ id: 'map' },
-				'mnbm'
-			);
+			return _react2.default.createElement('div', { id: 'map' });
 		}
 	}]);
 
@@ -15402,7 +15398,11 @@ var App = function (_Component) {
 						_react2.default.createElement(_localDining2.default, null)
 					)
 				}),
-				_react2.default.createElement(_GoogleMap2.default, null),
+				_react2.default.createElement(
+					'div',
+					{ id: 'overlay' },
+					_react2.default.createElement(_GoogleMap2.default, null)
+				),
 				_react2.default.createElement(
 					'div',
 					{ id: 'restaurants' },
