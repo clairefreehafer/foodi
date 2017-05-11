@@ -16085,7 +16085,11 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var GoogleMap = function GoogleMap(props) {
-	return _react2.default.createElement("div", { id: "map" });
+	return _react2.default.createElement(
+		"div",
+		{ id: "map" },
+		"Map loading..."
+	);
 };
 
 exports.default = GoogleMap;
@@ -48524,11 +48528,68 @@ module.exports = function() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+var mapStyles = [{
+	"featureType": "administrative",
+	"elementType": "all",
+	"stylers": [{
+		"visibility": "simplified"
+	}]
+}, {
+	"featureType": "landscape",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#fcfcfc"
+	}]
+}, {
+	"featureType": "poi",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#fcfcfc"
+	}]
+}, {
+	"featureType": "road.highway",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#dddddd"
+	}]
+}, {
+	"featureType": "road.arterial",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#dddddd"
+	}]
+}, {
+	"featureType": "road.local",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#eeeeee"
+	}]
+}, {
+	"featureType": "water",
+	"elementType": "geometry",
+	"stylers": [{
+		"visibility": "simplified"
+	}, {
+		"color": "#dddddd"
+	}]
+}];
+
 var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: lat, lng: lng },
 		zoom: 11,
-		disableDefaultUI: true
+		disableDefaultUI: true,
+		styles: mapStyles
 	});
 
 	restaurants.forEach(function (restaurant) {
