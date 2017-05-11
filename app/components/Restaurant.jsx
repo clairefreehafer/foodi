@@ -29,13 +29,13 @@ const Restaurant = (props) => {
             </div>}
             onClick={() => props.onRestaurantClick(restaurant.place_id)}
           >
-          {/* put in contingency for no photos */}
+
             {restaurant.photos ? <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
             : <img src="/no-image.png" />}
           </GridTile>
         )
       })
-      : <CircularProgress size={100} thickness={10} id="progress" />}
+      : <CircularProgress color={'rgb(234, 57, 35)'} size={100} thickness={10} id="progress" />}
     </GridList>
   )
 }

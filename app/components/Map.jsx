@@ -7,32 +7,15 @@ import { getUserLocation, store } from '../redux';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import FontIcon from 'material-ui/FontIcon';
 
-const style = { width: '100px', height: '100px'}
-
-const AnyReactComponent = ({ text }) => <div style={style}>{text}</div>;
-
  const mapStateToProps = state => ({
 	lat: state.lat,
 	lng: state.lng,
 	restaurants: state.restaurants
 });
 
-const mapDispatchToProps = dispatch => ({
-	getUserLocation: (lat, lng) => {
-		dispatch(getUserLocation(lat, lng));
-	}
-});
+const mapDispatchToProps = dispatch => ({});
 
 class Map extends Component {
-  static defaultProps = {
-    center: {lat: 59.95, lng: 30.33},
-    zoom: 11
-  };
-
-	componentDidMount () {
-		// this.props.getUserLocation()
-	}
-
 	getUserLocation () {
 		const location = navigator.geolocation;
 
@@ -53,13 +36,14 @@ class Map extends Component {
 		if (restaurants.length > 0) console.log('location', restaurants[0].geometry.location.lat())
 
     return (
+			<div id="overlay">
 				<GoogleMapReact
 					bootstrapURLKeys={{
 						key: 'AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM',
 						libraries: 'places'
 					}}
-					defaultCenter={this.props.center}
-					defaultZoom={this.props.zoom}
+					defaultCenter={{lat: 0, lng: 0}}
+					defaultZoom={12}
 					center={currentLocation}
 				>
 				{restaurants.length > 0 ? restaurants.map(restaurant => (
@@ -72,6 +56,7 @@ class Map extends Component {
 				: null}
 
 				</GoogleMapReact>
+			</div>
     );
   }
 }

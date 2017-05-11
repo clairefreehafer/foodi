@@ -1,5 +1,18 @@
+a {
+	color: rgb(234, 57, 35);
+}
+
 body {
 	margin: 0;
+}
+
+h1#header {
+	font-family: "Roboto", sans-serif;
+	font-size: 30px;
+	text-align: center;
+	font-weight: normal;
+	padding-top: 300px;
+	position: relative;
 }
 
 h2 {
@@ -23,18 +36,32 @@ h3 {
 	margin-top: 20px;
 }
 
+/*234, 57, 35*/
+
+h4 {
+	color: rgb(0, 0, 0);
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 26px;
+	margin-top: 20px;
+}
+
 hr {
 	margin: 30px !important;
 }
 
 #map {
 	width: 100vw;
-	height: 500px;
+	height: 300px;
 }
 
-#header {
-	font-size: 50px;
-	text-align: center;
+#overlay {
+   background: transparent;
+   position: relative;
+   width: 100vw;
+   height: 300px; /* your iframe height */
+   top: 300px;  /* your iframe height */
+   margin-top: -300px;  /* your iframe height */
 }
 
 #progress {
@@ -42,6 +69,7 @@ hr {
 }
 
 #grid-list {
+	cursor: pointer;
 	margin: 0 auto !important;
 	max-width: 1000px;
 }

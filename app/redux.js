@@ -7,12 +7,10 @@ import thunkMiddleware from 'redux-thunk';
 /*************************************/
 
 // push user's location to the store
-export const setUserLocation = (lat, lng) => {
-	return {
-		type: 'SET_USER_LOCATION',
-		location: [lat, lng]
-	}
-}
+export const setUserLocation = (lat, lng) => ({
+	type: 'SET_USER_LOCATION',
+	location: [lat, lng]
+});
 
 export const getUserLocation = () => {
 	const location = navigator.geolocation;
@@ -20,23 +18,23 @@ export const getUserLocation = () => {
 	return dispatch => {
 		if (location) {
 			location.getCurrentPosition(position => {
-				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude))
-			})
+				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
+			});
+		} else {
+			dispatch(setUserLocation('error'));
 		}
-	}
-}
+	};
+};
 
 // set closest restaurants
-export const setRestaurants = restaurants => {
-	return {
-		type: 'SET_RESTAURANTS',
-		restaurants: restaurants
-	}
-}
+export const setRestaurants = restaurants => ({
+	type: 'SET_RESTAURANTS',
+	restaurants: restaurants
+});
 
 export const getRestaurants = (lat, lng) => {
 	return dispatch => {
-		const service = new google.maps.places.PlacesService(document.createElement('div'));
+		const placeService = new google.maps.places.PlacesService(document.createElement('div'));
 
 		const request = {
 			location: new google.maps.LatLng(lat, lng),
@@ -44,30 +42,27 @@ export const getRestaurants = (lat, lng) => {
 			type: ['restaurant']
 		};
 
-		service.nearbySearch(request, restaurants => {
+		placeService.nearbySearch(request, restaurants => {
 			dispatch(setRestaurants(restaurants));
-		})
-	}
+		});
+	};
 }
 
 // create restaurant popup
-export const setRestaurantInfo = restaurantInfo => (
-	{
-		type: 'SET_RESTAURANT_INFO',
-		restaurantInfo: restaurantInfo
-	}
-)
+export const setRestaurantInfo = restaurantInfo => ({
+	type: 'SET_RESTAURANT_INFO',
+	restaurantInfo: restaurantInfo
+})
 
 export const getRestaurantInfo = restaurantId => {
 	return dispatch => {
-		const getInfo = new google.maps.places.PlacesService(document.createElement('div'));
+		const infoService = new google.maps.places.PlacesService(document.createElement('div'));
 
 		const infoRequest = {
 			placeId: restaurantId
 		};
 
-		getInfo.getDetails(infoRequest, (restaurantInfo, status) => {
-			console.log('restaurantinfo', restaurantInfo)
+		infoService.getDetails(infoRequest, (restaurantInfo, status) => {
 			dispatch(setRestaurantInfo(restaurantInfo));
 		})
 	}
@@ -82,7 +77,7 @@ const initialState = {
 	lng: 0,
 	restaurants: [],
 	restaurantInfo: null
-}
+};
 
 export const reducer = (state = initialState, action) => {
 	switch (action.type) {

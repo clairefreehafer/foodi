@@ -17,6 +17,7 @@ const PopUp = (props) => {
 		label="Close"
 		primary={true}
 		onClick={() => props.handlePopUpClose()}
+		style={{color: 'rgb(234, 57, 35)'}}
 	/>
 
 	const info = props.restaurantInfo

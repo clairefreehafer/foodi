@@ -5429,6 +5429,8 @@ var getUserLocation = exports.getUserLocation = function getUserLocation() {
 			location.getCurrentPosition(function (position) {
 				dispatch(setUserLocation(position.coords.latitude, position.coords.longitude));
 			});
+		} else {
+			dispatch(setUserLocation('error'));
 		}
 	};
 };
@@ -5443,7 +5445,7 @@ var setRestaurants = exports.setRestaurants = function setRestaurants(restaurant
 
 var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) {
 	return function (dispatch) {
-		var service = new google.maps.places.PlacesService(document.createElement('div'));
+		var placeService = new google.maps.places.PlacesService(document.createElement('div'));
 
 		var request = {
 			location: new google.maps.LatLng(lat, lng),
@@ -5451,7 +5453,7 @@ var getRestaurants = exports.getRestaurants = function getRestaurants(lat, lng) 
 			type: ['restaurant']
 		};
 
-		service.nearbySearch(request, function (restaurants) {
+		placeService.nearbySearch(request, function (restaurants) {
 			dispatch(setRestaurants(restaurants));
 		});
 	};
@@ -5467,14 +5469,13 @@ var setRestaurantInfo = exports.setRestaurantInfo = function setRestaurantInfo(r
 
 var getRestaurantInfo = exports.getRestaurantInfo = function getRestaurantInfo(restaurantId) {
 	return function (dispatch) {
-		var getInfo = new google.maps.places.PlacesService(document.createElement('div'));
+		var infoService = new google.maps.places.PlacesService(document.createElement('div'));
 
 		var infoRequest = {
 			placeId: restaurantId
 		};
 
-		getInfo.getDetails(infoRequest, function (restaurantInfo, status) {
-			console.log('restaurantinfo', restaurantInfo);
+		infoService.getDetails(infoRequest, function (restaurantInfo, status) {
 			dispatch(setRestaurantInfo(restaurantInfo));
 		});
 	};
@@ -12008,7 +12009,8 @@ var PopUp = function PopUp(props) {
 		primary: true,
 		onClick: function onClick() {
 			return props.handlePopUpClose();
-		}
+		},
+		style: { color: 'rgb(234, 57, 35)' }
 	});
 
 	var info = props.restaurantInfo;
@@ -22131,7 +22133,6 @@ var App = function (_Component) {
 	}, {
 		key: 'handlePopUpClose',
 		value: function handlePopUpClose() {
-			console.log('test');
 			this.props.setRestaurantInfo();
 		}
 	}, {
@@ -22142,6 +22143,7 @@ var App = function (_Component) {
 				{ style: { width: '100vw' } },
 				_react2.default.createElement(_AppBar2.default, {
 					title: 'We Are Hungry Tourists',
+					style: { backgroundColor: 'rgb(234, 57, 35)' },
 					iconElementLeft: _react2.default.createElement(
 						_IconButton2.default,
 						null,
@@ -22150,11 +22152,16 @@ var App = function (_Component) {
 				}),
 				_react2.default.createElement(
 					'div',
+					{ id: 'map' },
+					_react2.default.createElement(_Map2.default, null)
+				),
+				_react2.default.createElement(
+					'div',
 					{ id: 'restaurants' },
 					_react2.default.createElement(
-						'div',
+						'h1',
 						{ id: 'header' },
-						'Restaurants Near You'
+						'Restaurants Within 10km'
 					),
 					_react2.default.createElement(_RestaurantsContainer2.default, null)
 				),
@@ -22346,17 +22353,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var style = { width: '100px', height: '100px' };
-
-var AnyReactComponent = function AnyReactComponent(_ref) {
-	var text = _ref.text;
-	return _react2.default.createElement(
-		'div',
-		{ style: style },
-		text
-	);
-};
-
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		lat: state.lat,
@@ -22366,11 +22362,7 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	return {
-		getUserLocation: function getUserLocation(lat, lng) {
-			dispatch((0, _redux.getUserLocation)(lat, lng));
-		}
-	};
+	return {};
 };
 
 var Map = function (_Component) {
@@ -22383,11 +22375,6 @@ var Map = function (_Component) {
 	}
 
 	_createClass(Map, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			// this.props.getUserLocation()
-		}
-	}, {
 		key: 'getUserLocation',
 		value: function getUserLocation() {
 			var _this2 = this;
@@ -22412,28 +22399,32 @@ var Map = function (_Component) {
 			if (restaurants.length > 0) console.log('location', restaurants[0].geometry.location.lat());
 
 			return _react2.default.createElement(
-				_googleMapReact2.default,
-				{
-					bootstrapURLKeys: {
-						key: 'AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM',
-						libraries: 'places'
-					},
-					defaultCenter: this.props.center,
-					defaultZoom: this.props.zoom,
-					center: currentLocation
-				},
-				restaurants.length > 0 ? restaurants.map(function (restaurant) {
-					return _react2.default.createElement(
-						_FontIcon2.default,
-						{
-							className: 'material-icons',
-							lat: restaurant.geometry.location.lat(),
-							lng: restaurant.geometry.location.lng(),
-							zIndex: 1
+				'div',
+				{ id: 'overlay' },
+				_react2.default.createElement(
+					_googleMapReact2.default,
+					{
+						bootstrapURLKeys: {
+							key: 'AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM',
+							libraries: 'places'
 						},
-						'place'
-					);
-				}) : null
+						defaultCenter: { lat: 0, lng: 0 },
+						defaultZoom: 12,
+						center: currentLocation
+					},
+					restaurants.length > 0 ? restaurants.map(function (restaurant) {
+						return _react2.default.createElement(
+							_FontIcon2.default,
+							{
+								className: 'material-icons',
+								lat: restaurant.geometry.location.lat(),
+								lng: restaurant.geometry.location.lng(),
+								zIndex: 1
+							},
+							'place'
+						);
+					}) : null
+				)
 			);
 		}
 	}]);
@@ -22441,10 +22432,6 @@ var Map = function (_Component) {
 	return Map;
 }(_react.Component);
 
-Map.defaultProps = {
-	center: { lat: 59.95, lng: 30.33 },
-	zoom: 11
-};
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Map);
 
 /***/ }),
@@ -22516,7 +22503,7 @@ var Restaurant = function Restaurant(props) {
         },
         restaurant.photos ? _react2.default.createElement('img', { src: restaurant.photos[0].getUrl({ maxWidth: 500, maxHeight: 500 }) }) : _react2.default.createElement('img', { src: '/no-image.png' })
       );
-    }) : _react2.default.createElement(_CircularProgress2.default, { size: 100, thickness: 10, id: 'progress' })
+    }) : _react2.default.createElement(_CircularProgress2.default, { color: 'rgb(234, 57, 35)', size: 100, thickness: 10, id: 'progress' })
   );
 };
 
