@@ -25,7 +25,7 @@ const PopUp = (props) => {
 	const lat = info.geometry.location.lat();
 	const lng = info.geometry.location.lng();
 
-	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=color:0xEA3923|${lat},${lng}&zoom=15&size=640x300`
+	const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDDRqrlHYalYAQtC_fPwZ9Z9JWAKDgD6MM&markers=color:0xEA3923|${lat},${lng}&zoom=15&size=640x300&style=feature:administrative|element:all|visibility:simplified&style=feature:landscape|element:geometry|visibility:simplified|color:0xfcfcfc&style=feature:poi|element:geometry|visibility:simplified|color:0xfcfcfc&style=feature:road.highway|element:geometry|visibility:simplified|color:0xdddddd&style=feature:road.arterial|element:geometry|visibility:simplified|color:0xdddddd&style=feature:road.local|element:geometry|visibility:simplified|color:0xeeeeee&style=feature:water|element:geometry|visibility:simplifeid|color:0xdddddd`
 
 	return (
 		<Dialog
