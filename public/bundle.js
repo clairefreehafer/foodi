@@ -48534,7 +48534,18 @@ var initMap = exports.initMap = function initMap(lat, lng, restaurants) {
 		zoom: 12
 	});
 
-	console.log('restaurants', restaurants);
+	restaurants.forEach(function (restaurant) {
+		var pos = {
+			lat: restaurant.geometry.location.lat(),
+			lng: restaurant.geometry.location.lng()
+		};
+
+		var marker = new google.maps.Marker({
+			position: pos,
+			map: map,
+			title: 'Hello World!'
+		});
+	});
 };
 
 /***/ })

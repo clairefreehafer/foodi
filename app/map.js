@@ -4,5 +4,16 @@ export const initMap = (lat, lng, restaurants) => {
 		zoom: 12
 	});
 
-	console.log('restaurants', restaurants)
+	restaurants.forEach(restaurant => {
+		let pos = {
+			lat: restaurant.geometry.location.lat(),
+			lng: restaurant.geometry.location.lng()
+		};
+
+		let marker = new google.maps.Marker({
+    	position: pos,
+			map: map,
+    	title: 'Hello World!'
+		});
+	});
 }
