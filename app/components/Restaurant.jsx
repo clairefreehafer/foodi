@@ -30,7 +30,8 @@ const Restaurant = (props) => {
             onClick={() => props.onRestaurantClick(restaurant.place_id)}
           >
           {/* put in contingency for no photos */}
-            <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
+            {restaurant.photos ? <img src={restaurant.photos[0].getUrl({maxWidth: 500, maxHeight: 500})} />
+            : <img src="/no-image.png" />}
           </GridTile>
         )
       })
