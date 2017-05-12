@@ -66,9 +66,9 @@ hr {
    background: transparent;
    position: relative;
    width: 100vw;
-   height: 300px; /* your iframe height */
-   top: 300px;  /* your iframe height */
-   margin-top: -300px;  /* your iframe height */
+   height: 300px;
+   top: 300px;
+   margin-top: -300px;
 }
 
 #progress {

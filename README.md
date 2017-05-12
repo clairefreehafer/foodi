@@ -8,12 +8,13 @@ We Are Hungry Tourists (WAHT) is a simple web-based app that gives you a list of
 
 WAHT was built using the robust **Google Maps** and **Google Places** API. This service provides the most up-to-date information as well as a way for users to leave reviews that will reach an audience scope beyond this app, possibly even to the restaurant owners themselves.
 
-**Express.js** is used for basic routing and running the app server. On the front end **React** and **Redux** are working in tandem to provide a moduler and responsive user experience. **Webpack** packages this all up neatly for the browser environment. The **Material-UI** React library was used for styling.
+**Express.js** is used for basic routing and running the app server. On the front end **React** and **Redux** are working in tandem to provide a moduler and responsive user experience. **Webpack** packages this all up neatly for the browser environment. The **Material-UI** React library was used for styling following Google's Material Design guidelines.
 
 ## How to Use
 
 1. ```npm install``` or ```yarn install``` from the root directory to install all dependencies.
-2. Navigate to ```localhost:1337``` in your browser of choice and enjoy!
+2. ```npm start``` or ```yarn start``` to start the server.
+3. Navigate to ```localhost:1337``` in your browser of choice and enjoy!
 
 ## Deployment
 
