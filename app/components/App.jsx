@@ -70,7 +70,7 @@ class App extends Component {
 
 				{/* title bar */}
 				<AppBar
-					title="We Are Hungry Tourists"
+					title="Foodi"
 					style={{backgroundColor: 'rgb(234, 57, 35)'}}
 					iconElementLeft={<IconButton><LocalDining /></IconButton>}
 				/>

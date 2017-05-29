@@ -30,7 +30,7 @@ const Restaurant = (props) => {
               actionIcon={<div className="rating">
                 <FontIcon className="material-icons" color="white">star</FontIcon>&nbsp;
                 <span className="rating-number">
-                  {restaurant.rating.toFixed(1)}
+                  {/*restaurant.rating.toFixed(1)*/}
                 </span>
               </div>}
               onClick={() => props.onRestaurantClick(restaurant.place_id)}
