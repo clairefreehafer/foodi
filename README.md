@@ -1,12 +1,12 @@
-# WE ARE HUNGRY TOURISTS
+# Foodi
 
 ## About
 
-We Are Hungry Tourists (WAHT) is a simple web-based app that gives you a list of restaurants closest to you. It provides star rating, user reviews, and whether it's open now or not in order to help mitigate your decision. Once you've eaten, you can leave a review to help future tourists make their own eating decisions.
+Foodi is a simple web-based app that gives you a list of restaurants closest to you. It provides star rating, user reviews, and whether it's open now or not in order to help mitigate your decision. Once you've eaten, you can leave a review to help future tourists make their own eating decisions.
 
 ## Technology
 
-WAHT was built using the robust **Google Maps** and **Google Places** API. This service provides the most up-to-date information as well as a way for users to leave reviews that will reach an audience scope beyond this app, possibly even to the restaurant owners themselves.
+Foodi was built using the robust **Google Maps** and **Google Places** API. This service provides the most up-to-date information as well as a way for users to leave reviews that will reach an audience scope beyond this app, possibly even to the restaurant owners themselves.
 
 **Express.js** is used for basic routing and running the app server. On the front end **React** and **Redux** are working in tandem to provide a moduler and responsive user experience. **Webpack** packages this all up neatly for the browser environment. The **Material-UI** React library was used for styling following Google's Material Design guidelines.
 
@@ -18,7 +18,7 @@ WAHT was built using the robust **Google Maps** and **Google Places** API. This 
 
 ## Deployment
 
-We Are Hungry Tourists would be deployed using Heroku, which allows the app to be pushed to a directory as one would push it to GitHub or a similar service – simple! Heroku also provides numerous add-ons to help with things such as continual integration.
+Foodi would be deployed using Heroku, which allows the app to be pushed to a directory as one would push it to GitHub or a similar service – simple! Heroku also provides numerous add-ons to help with things such as continual integration.
 
 ## Documentation
 
