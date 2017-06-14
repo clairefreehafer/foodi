@@ -15215,7 +15215,7 @@ var App = function (_Component) {
 				'div',
 				{ style: { width: '100vw' } },
 				_react2.default.createElement(_AppBar2.default, {
-					title: 'We Are Hungry Tourists',
+					title: 'Foodi',
 					style: { backgroundColor: 'rgb(234, 57, 35)' },
 					iconElementLeft: _react2.default.createElement(
 						_IconButton2.default,
